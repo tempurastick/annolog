@@ -19,8 +19,4 @@ export default async function connectDB() {
         console.log(e);
         process.exit(1);
     }
-    // finally {
-    //     // Ensures that the client will close when you finish/error
-    //     await mongoose.connection.close();
-    // }
 }

@@ -1,16 +1,11 @@
 import { User } from "../model/userModel.js";
-import jwt from "jsonwebtoken";
+
 import bcrypt from "bcryptjs";
+import generateToken from "../utils/generateToken.js";
 
 // @desc create a new user
 // @route POST /api/users
 export const registerUser = async (req, res, next) => {
-    if (!req.body) {
-        const error = new Error(`Empty request`);
-        error.status = 400;
-        return next(error);
-    }
-
     const { name, email, password } = await req.body;
     const missingRequiredField = name && email && password ? false : true;
 
@@ -40,11 +35,11 @@ export const registerUser = async (req, res, next) => {
     });
 
     if (user) {
+        generateToken(res, user._id);
         res.status(201).json({
             _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id),
         });
     } else {
         const error = new Error(`Invalid user data`);
@@ -57,25 +52,20 @@ export const registerUser = async (req, res, next) => {
 // @route POST /api/users/login
 
 export const loginUser = async (req, res, next) => {
-    if (!req.body) {
-        const error = new Error(`Empty request`);
-        error.status = 400;
-        return next(error);
-    }
     const { email, password } = await req.body;
 
     const user = await User.findOne({ email });
 
-    if (user && (await bcrypt.compare(password, user.password))) {
+    if (user && (await user.matchPassword(password))) {
+        generateToken(res, user._id);
         res.json({
             _id: user.id,
             name: user.name,
             email: user.email,
-            token: generateToken(user._id),
         });
     } else {
         const error = new Error(`Invalid credentials`);
-        error.status = 400;
+        error.status = 401;
         return next(error);
     }
 };
@@ -93,9 +83,12 @@ export const getCurrentUser = async (req, res, next) => {
     });
 };
 
-// generate JWT token
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: "30d",
+// @desc logout user
+// @route POST /api/users/logout
+export const logoutUser = (req, res) => {
+    res.cookie("jwt", "", {
+        httpOnly: true,
+        expires: new Date(0),
     });
+    res.status(200).json({ message: "Logged out successfully" });
 };
