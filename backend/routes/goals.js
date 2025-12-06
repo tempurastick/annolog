@@ -7,22 +7,23 @@ import {
     updateGoal,
 } from "../controllers/goalController.js";
 const router = express.Router();
+import { protect } from "../middleware/auth.js";
 
-router.get("/", getGoals);
+router.get("/", protect, getGoals);
 
 // get single Goals
-router.get("/:id", getGoal);
+router.get("/:id", protect, getGoal);
 
 // create new Goal -- would not persist bc it's not currently stored anywhere
 
-router.post("/", createGoal);
+router.post("/", protect, createGoal);
 
 // update Goal
 
-router.put("/:id", updateGoal);
+router.put("/:id", protect, updateGoal);
 
 // delete Goal
 
-router.delete("/:id", deleteGoal);
+router.delete("/:id", protect, deleteGoal);
 
 export default router;

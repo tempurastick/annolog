@@ -7,6 +7,7 @@ import runDB from "./config/db.js";
 const port = process.env.PORT;
 import posts from "./routes/posts.js";
 import goals from "./routes/goals.js";
+import users from "./routes/users.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import notFound from "./middleware/notFound.js";
@@ -31,6 +32,7 @@ app.use(logger);
 // routes
 app.use("/api/posts", posts);
 app.use("/api/goals", goals);
+app.use("/api/users", users);
 app.use(notFound);
 
 // error handler should be declared below routes
