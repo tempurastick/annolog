@@ -49,7 +49,7 @@ export const registerUser = async (req, res, next) => {
 };
 
 // @desc authenticate a  user
-// @route POST /api/users/login
+// @route POST /api/users/auth
 
 export const loginUser = async (req, res, next) => {
     const { email, password } = await req.body;
