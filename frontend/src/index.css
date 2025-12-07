@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@plugin "daisyui";
 @font-face {
   font-family: 'Ubuntu';
   src: url('./assets/fonts/Ubuntu-Regular.ttf') format('truetype');
