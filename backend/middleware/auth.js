@@ -18,7 +18,6 @@ export const protect = async (req, res, next) => {
             req.user = await User.findById(decoded.id).select("-password");
             return next();
         } catch (e) {
-            console.log(e);
             const error = new Error(`Not Authorized: ${e}`);
             error.status = 401;
             return next(error);

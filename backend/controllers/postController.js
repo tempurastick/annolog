@@ -39,7 +39,6 @@ export const getPost = (req, res, next) => {
 // @route POST /api/post/:d
 
 export const createPost = (req, res, next) => {
-    console.log(req.body);
     const newPost = {
         id: posts.length + 1,
         title: req.body.title,

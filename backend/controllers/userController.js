@@ -92,3 +92,32 @@ export const logoutUser = (req, res) => {
     });
     res.status(200).json({ message: "Logged out successfully" });
 };
+
+// @desc update user profile
+// @route PUT /api/users/profile
+export const updateUserProfile = async (req, res, next) => {
+    const { name, email, password } = await req.body;
+
+    const user = await User.findById(req.user._id);
+
+    if (user) {
+        user.name = name || user.name;
+        user.email = email || user.email;
+
+        if (password) {
+            user.password = password;
+        }
+
+        const updateUser = await user.save();
+
+        res.json({
+            _id: updateUser.id,
+            name: updateUser.name,
+            email: updateUser.email,
+        });
+    } else {
+        const error = new Error(`User not found`);
+        error.status = 401;
+        return next(error);
+    }
+};
