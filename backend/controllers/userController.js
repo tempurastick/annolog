@@ -37,7 +37,7 @@ export const registerUser = async (req, res, next) => {
     if (user) {
         generateToken(res, user._id);
         res.status(201).json({
-            _id: user.id,
+            _id: user._id,
             name: user.name,
             email: user.email,
         });
@@ -59,7 +59,7 @@ export const loginUser = async (req, res, next) => {
     if (user && (await user.matchPassword(password))) {
         generateToken(res, user._id);
         res.json({
-            _id: user.id,
+            _id: user._id,
             name: user.name,
             email: user.email,
         });
@@ -74,7 +74,7 @@ export const loginUser = async (req, res, next) => {
 // @route GET /api/users/me
 // @access Private
 export const getCurrentUser = async (req, res, next) => {
-    const { _id, name, email } = await User.findById(req.user.id);
+    const { _id, name, email } = await User.findById(req.user._id);
 
     res.status(200).json({
         id: _id,
@@ -111,7 +111,7 @@ export const updateUserProfile = async (req, res, next) => {
         const updateUser = await user.save();
 
         res.json({
-            _id: updateUser.id,
+            _id: updateUser._id,
             name: updateUser.name,
             email: updateUser.email,
         });
