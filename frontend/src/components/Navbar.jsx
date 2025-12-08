@@ -40,7 +40,7 @@ const Navbar = () => {
                             <NavLink to="/profile">Profile</NavLink>
                         </li>
                         <li>
-                            <NavLink to="/settings">Settings</NavLink>
+                            <NavLink to="/examples">Examples</NavLink>
                         </li>
                     </ul>
                 </div>
@@ -50,7 +50,7 @@ const Navbar = () => {
             </div>
             <div className="navbar-end">
                 <NavUser />
-                <button className="btn btn-ghost btn-circle">
+                {/* <button className="btn btn-ghost btn-circle">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5 w-5"
@@ -66,8 +66,8 @@ const Navbar = () => {
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                         />{" "}
                     </svg>
-                </button>
-                <button className="btn btn-ghost btn-circle">
+                </button> */}
+                {/* <button className="btn btn-ghost btn-circle">
                     <div className="indicator">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +86,7 @@ const Navbar = () => {
                         </svg>
                         <span className="badge badge-xs badge-primary indicator-item"></span>
                     </div>
-                </button>
+                </button> */}
             </div>
         </div>
     );

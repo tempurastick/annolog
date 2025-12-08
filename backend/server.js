@@ -4,13 +4,18 @@ import path from "path";
 import { fileURLToPath } from "url";
 import runDB from "./config/db.js";
 import cookieParser from "cookie-parser";
-import posts from "./routes/posts.js";
-import goals from "./routes/goals.js";
-import users from "./routes/users.js";
+
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import notFound from "./middleware/notFound.js";
 import dotenv from "dotenv";
+
+// routes
+import posts from "./routes/posts.js";
+import goals from "./routes/goals.js";
+import users from "./routes/users.js";
+import movies from "./routes/movies.js";
+
 dotenv.config();
 
 const port = process.env.PORT;
@@ -37,6 +42,7 @@ app.use(logger);
 app.use("/api/posts", posts);
 app.use("/api/goals", goals);
 app.use("/api/users", users);
+app.use("/api/movies", movies);
 app.use(notFound);
 
 // error handler should be declared below routes

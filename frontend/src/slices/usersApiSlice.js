@@ -34,8 +34,8 @@ export const usersApiSplice = apiSlice.injectEndpoints({
     }),
 });
 
-// convention for POST request is to name it actionMutation
-// for GET it's actionQuery
+// convention for POST request is to name it useActionMutation
+// for GET it's useActionQuery
 export const {
     useLoginMutation,
     useLogoutMutation,

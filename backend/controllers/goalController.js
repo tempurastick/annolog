@@ -11,7 +11,7 @@ export const getGoals = async (req, res, next) => {
 };
 
 // @desc Get single goal
-// @route GET /api/goal/:d
+// @route GET /api/goal/:id
 
 export const getGoal = async (req, res, next) => {
     const goal = await Goal.findById(req.params.id);
@@ -26,7 +26,7 @@ export const getGoal = async (req, res, next) => {
 };
 
 // @desc create  single goal
-// @route goal /api/goal/:d
+// @route goal /api/goal/:id
 
 export const createGoal = async (req, res, next) => {
     if (!req.body.text) {

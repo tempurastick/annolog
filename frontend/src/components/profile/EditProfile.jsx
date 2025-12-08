@@ -32,7 +32,6 @@ const EditProfile = () => {
         ? "btn btn-neutral mt-4 btn-disabled"
         : "btn btn-neutral mt-4";
 
-    console.log(userInfo);
     const submitUserName = async (e) => {
         e.preventDefault();
 
