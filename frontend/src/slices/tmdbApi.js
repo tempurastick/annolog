@@ -19,7 +19,14 @@ export const tmdbApi = createApi({
         getMovieDetails: builder.query({
             query: (id) => `movies/${id}`,
         }),
+        getConfiguration: builder.query({
+            query: () => `configuration`,
+        }),
     }),
 });
 
-export const { useSearchMoviesQuery, useGetMovieDetailsQuery } = tmdbApi;
+export const {
+    useSearchMoviesQuery,
+    useGetMovieDetailsQuery,
+    useGetConfigurationQuery,
+} = tmdbApi;

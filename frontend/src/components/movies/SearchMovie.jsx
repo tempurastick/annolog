@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { useSearchMoviesQuery } from "../../slices/tmdbApi";
-import useDebounce from "../../hooks/useDebounce.js";
+import {
+    useSearchMoviesQuery,
+    useGetConfigurationQuery,
+} from "../../slices/tmdbApi";
+import useDebounce from "../../hooks/useDebounce";
+import { HiSearch } from "react-icons/hi";
+import { useBuildMoviePoster } from "../../hooks/useBuildMoviePoster";
 
-const SearchMovie = () => {
+const SearchMovie = ({ onSelectMovie }) => {
     let [searchTerm, setSearchTerm] = useState("");
+    let [selectedMovie, setSelectedMovie] = useState("");
     const debouncedSearch = useDebounce(searchTerm, 600);
-    let suggestedMovies = [];
+
     const {
         data: movies,
         isLoading,
@@ -14,78 +20,119 @@ const SearchMovie = () => {
         skip: !debouncedSearch,
     });
 
+    // const { data: tmdbConfig } = useGetConfigurationQuery();
+    // if (tmdbConfig) {
+    //     const { _change_keys, images } = tmdbConfig;
+    //     const setMoviePosterPath = (posterUrl) => {
+    //         return `${images.base_url}${images.poster_sizes[0]}${posterUrl}`;
+    //     };
+    // }
+    let moviePoster;
+
     const onSearch = async (e) => {
         console.log(e.target.value);
         setSearchTerm(e.target.value);
     };
-    console.log(movies);
+
+    moviePoster = useBuildMoviePoster(selectedMovie.movie?.poster_path);
+
+    const onMovieSelected = async (e, movie) => {
+        setSearchTerm(movie.title);
+        setSelectedMovie({ movie });
+        onSelectMovie({
+            tmdbId: movie.id,
+            title: movie.title,
+            poster: movie.poster_path,
+            releaseDate: movie.release_date,
+        });
+    };
 
     return (
         <>
             <div>SearchMovie</div>
-            <div className="dropdown">
-                <label className="input">
-                    <svg
-                        className="h-[1em] opacity-50"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                    >
-                        <g
-                            strokeLinejoin="round"
-                            strokeLinecap="round"
-                            strokeWidth="2.5"
-                            fill="none"
-                            stroke="currentColor"
-                        >
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <path d="m21 21-4.3-4.3"></path>
-                        </g>
-                    </svg>
-                    <input
-                        tabIndex={0}
-                        type="search"
-                        required
-                        placeholder="Search"
-                        value={searchTerm}
-                        onChange={(e) => onSearch(e)}
-                    />
-                </label>
-
-                {/* <div tabIndex={0} role="button" className="btn m-1">
-                    Click
-                </div> */}
-                <ul
-                    tabIndex="-1"
-                    className="dropdown-content bg-base-100 rounded-box z-1 w-100 p-2 shadow-sm h-[32rem] overflow-y-scroll flex flex-col gap-2"
-                >
-                    {isLoading ? (
+            <div className="flex gap-2 w-full">
+                <div className="flex gap-2 w-1/2">
+                    {selectedMovie ? (
                         <>
-                            <li>Loading...</li>
+                            {moviePoster}
+                            <ul>
+                                <li className="text-xs uppercase font-bold">
+                                    {selectedMovie.movie?.title}
+                                </li>
+                                <li className="text-xs uppercase italic">
+                                    {selectedMovie.movie?.release_date?.slice(
+                                        0,
+                                        4
+                                    )}
+                                </li>
+                            </ul>
                         </>
                     ) : (
                         <>
-                            {movies.results.map((movie) => {
-                                return (
-                                    <li key={movie.id}>
-                                        <a role="button">
-                                            <span className="truncate inline-block w-80">
-                                                {movie.title}
-                                                <span className="pl-1 italic text-base-content/50">
-                                                    (
-                                                    {movie.release_date.slice(
-                                                        0,
-                                                        4
-                                                    )}
-                                                    )
-                                                </span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                );
-                            })}
+                            <div className="skeleton pause h-32 w-20 max-w-20"></div>
+                            <div className="skeleton pause h-4 w-20"></div>
                         </>
                     )}
-                </ul>
+                </div>
+                <div className="dropdown w-1/2">
+                    <label className="input w-full">
+                        <HiSearch className="h-[1em] opacity-50" />
+
+                        <input
+                            id="searchMovie"
+                            tabIndex={0}
+                            type="search"
+                            required
+                            placeholder="Search"
+                            value={searchTerm}
+                            onChange={(e) => onSearch(e)}
+                        />
+                    </label>
+
+                    {/* <div tabIndex={0} role="button" className="btn m-1">
+                    Click
+                </div> */}
+                    <ul
+                        tabIndex="-1"
+                        className="dropdown-content bg-base-100 rounded-box z-1 w-full shadow-sm max-h-[32rem] overflow-y-scroll flex flex-col"
+                    >
+                        {isLoading ? (
+                            <>
+                                <li>Loading...</li>
+                            </>
+                        ) : (
+                            <>
+                                {movies?.results?.map((movie) => {
+                                    return (
+                                        <li
+                                            key={movie.id}
+                                            className="w-full transition hover:bg-base-300 hover:text-base-content/70"
+                                        >
+                                            <a
+                                                role="button"
+                                                onClick={(e) =>
+                                                    onMovieSelected(e, movie)
+                                                }
+                                            >
+                                                <span className="truncate inline-block w-80 pl-2 py-2">
+                                                    {movie.title}
+                                                    <span className="pl-1 italic text-base-content/50">
+                                                        (
+                                                        {movie.release_date.slice(
+                                                            0,
+                                                            4
+                                                        )}
+                                                        )
+                                                    </span>
+                                                </span>
+                                            </a>
+                                        </li>
+                                    );
+                                })}
+                            </>
+                        )}
+                    </ul>
+                </div>
             </div>
         </>
     );

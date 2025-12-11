@@ -45,5 +45,11 @@
 }
 
 @plugin "daisyui" {
-  themes: light --default, sunset --prefersdark, retro;
+  themes: north --default, north --prefersdark, retro, north;
+}
+
+@layer utilities {
+   .pause {
+     animation-play-state: paused;
+   }
 }

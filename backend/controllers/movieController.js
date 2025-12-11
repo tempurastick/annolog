@@ -11,7 +11,7 @@ export const getMovie = async (req, res, next) => {
 //@desc create a movies
 // @route POST /api/movies/
 export const createMovie = async (req, res, next) => {
-    const { tmdbId, title, poster, releaseDate, runtime, genres } = req.body;
+    const { tmdbId, title, poster, releaseDate } = req.body;
     const existingMovie = await Movie.findOne({ tmdbId: tmdbId });
 
     if (!req.body) {
@@ -32,8 +32,6 @@ export const createMovie = async (req, res, next) => {
         poster,
         releaseDate,
         lastFetched: new Date(),
-        runtime,
-        genres,
     });
 
     res.status(200).json(newMovie);
