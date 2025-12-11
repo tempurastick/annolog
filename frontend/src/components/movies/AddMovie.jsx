@@ -12,6 +12,7 @@ const AddMovie = () => {
     const [review, setReview] = useState("");
     const [watchedOn, setWatchedOn] = useState("");
     const [rating, setRating] = useState(0);
+    const [rewatch, setRewatch] = useState(false);
 
     const [addMovie, { isLoading }] = useAddMovieMutation();
 
@@ -23,8 +24,9 @@ const AddMovie = () => {
             review,
             rating,
             watchedOn,
+            rewatch,
         };
-
+        // add to movie db
         try {
             const res = await addMovie({
                 tmdbId: selectedMovie.tmdbId,
@@ -42,25 +44,44 @@ const AddMovie = () => {
 
     return (
         <>
-            <form onSubmit={(e) => onMovieSubmit(e)}>
-                <SearchMovie onSelectMovie={setSelectedMovie} />
-                <InputDatepicker value={watchedOn} onChange={setWatchedOn} />
-                <TextareaField
-                    name={"Review"}
-                    value={review}
-                    onChange={(e) => setReview(e.target.value)}
-                />
-                <RatingField
-                    name={"movie"}
-                    value={rating}
-                    onChange={setRating}
-                />
+            <fieldset className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
+                <legend className="fieldset-legend">Add Movie </legend>
+                <form onSubmit={(e) => onMovieSubmit(e)}>
+                    <SearchMovie onSelectMovie={setSelectedMovie} />
+                    <InputDatepicker
+                        value={watchedOn}
+                        onChange={setWatchedOn}
+                    />
+                    <TextareaField
+                        name={"Review"}
+                        value={review}
+                        onChange={(e) => setReview(e.target.value)}
+                    />
+                    <RatingField
+                        name={"movie"}
+                        value={rating}
+                        onChange={setRating}
+                    />
 
-                <button className="btn btn-primary" type="submit">
-                    <FaPlus />
-                    Add Movie
-                </button>
-            </form>
+                    <label className="label">
+                        <input
+                            type="checkbox"
+                            value={rewatch}
+                            name="Rewatch"
+                            onChange={(e) => {
+                                setRewatch(e.target.checked);
+                            }}
+                            className="checkbox"
+                        />
+                        I have seen it before
+                    </label>
+
+                    <button className="btn btn-primary" type="submit">
+                        <FaPlus />
+                        Add Movie
+                    </button>
+                </form>
+            </fieldset>
         </>
     );
 };
