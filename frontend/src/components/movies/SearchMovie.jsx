@@ -20,17 +20,9 @@ const SearchMovie = ({ onSelectMovie }) => {
         skip: !debouncedSearch,
     });
 
-    // const { data: tmdbConfig } = useGetConfigurationQuery();
-    // if (tmdbConfig) {
-    //     const { _change_keys, images } = tmdbConfig;
-    //     const setMoviePosterPath = (posterUrl) => {
-    //         return `${images.base_url}${images.poster_sizes[0]}${posterUrl}`;
-    //     };
-    // }
     let moviePoster;
 
     const onSearch = async (e) => {
-        console.log(e.target.value);
         setSearchTerm(e.target.value);
     };
 
@@ -50,8 +42,8 @@ const SearchMovie = ({ onSelectMovie }) => {
     return (
         <>
             <div>SearchMovie</div>
-            <div className="flex gap-2 w-full">
-                <div className="flex gap-2 w-1/2">
+            <div className="flex gap-2 w-full flex-wrap">
+                <div className="flex gap-2">
                     {selectedMovie ? (
                         <>
                             {moviePoster}
@@ -74,7 +66,7 @@ const SearchMovie = ({ onSelectMovie }) => {
                         </>
                     )}
                 </div>
-                <div className="dropdown w-1/2">
+                <div className="dropdown">
                     <label className="input w-full">
                         <HiSearch className="h-[1em] opacity-50" />
 

@@ -15,6 +15,7 @@ import posts from "./routes/posts.js";
 import goals from "./routes/goals.js";
 import users from "./routes/users.js";
 import movies from "./routes/movies.js";
+import watchlists from "./routes/watchlists.js";
 
 dotenv.config();
 
@@ -43,6 +44,7 @@ app.use("/api/posts", posts);
 app.use("/api/goals", goals);
 app.use("/api/users", users);
 app.use("/api/movies", movies);
+app.use("/api/watchlists", watchlists);
 app.use(notFound);
 
 // error handler should be declared below routes

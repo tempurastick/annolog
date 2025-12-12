@@ -8,6 +8,7 @@ import { useGetGoalsQuery } from "../../slices/goalsApiSlice";
 const GoalList = () => {
     const { data: goals, isLoading, isError } = useGetGoalsQuery();
 
+    // TODO: create layout for error
     if (isError) {
         return <div>Error</div>;
     }
@@ -27,7 +28,7 @@ const GoalList = () => {
         <>
             <div className="flex flex-wrap gap-2">
                 {goals.map((goal) => (
-                    <GoalCard goal={goal} key={goal.id} />
+                    <GoalCard goal={goal} key={goal._id} />
                 ))}
                 <AddNewGoal />
             </div>

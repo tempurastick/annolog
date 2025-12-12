@@ -8,12 +8,13 @@ import YearGrid from "../components/Calendar/YearGrid";
 import YearHeatMap from "../components/Charts/YearHeatMap";
 import SearchMovie from "../components/movies/SearchMovie";
 import AddMovie from "../components/movies/AddMovie";
+import Watchlist from "../components/movies/Watchlist";
 const Examples = () => {
     return (
         <>
             <div className="flex flex-col gap-4">
                 <h1>AnnoLog</h1>
-                <div
+                {/* <div
                     class="relative bg-base-100 p-10 border border-base-content/10 rounded-box"
                     data-theme="nord"
                 >
@@ -34,8 +35,9 @@ const Examples = () => {
                     <button className="btn btn-success">Success</button>
                     <button className="btn btn-warning">Warning</button>
                     <button className="btn btn-error">Error</button>
-                </div>
+                </div> */}
 
+                <Watchlist />
                 <AddMovie />
                 <GoalList />
                 <ImgList />

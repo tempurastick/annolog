@@ -8,6 +8,10 @@ export const moviesApiSlice = apiSlice.injectEndpoints({
             query: () => `${MOVIES_URL}`,
             providesTags: ["Movies"],
         }),
+        getSingleMovie: builder.query({
+            query: (id) => `${MOVIES_URL}/${id}`,
+            providesTags: ["Movies"],
+        }),
         addMovie: builder.mutation({
             query: (data) => ({
                 url: `${MOVIES_URL}`,
@@ -35,7 +39,8 @@ export const moviesApiSlice = apiSlice.injectEndpoints({
 });
 
 export const {
-    usetGetMoviesQuery,
+    useGetMoviesQuery,
+    useGetSingleMovieQuery,
     useAddMovieMutation,
     useRemoveMovieMutation,
     useUpdateMovieMutation,

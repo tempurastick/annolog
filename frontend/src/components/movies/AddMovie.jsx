@@ -1,12 +1,11 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import SearchMovie from "./SearchMovie";
 import InputDatepicker from "../form/InputDatepicker";
 import RatingField from "../form/RatingField";
 import { FaPlus } from "react-icons/fa";
 import TextareaField from "../form/TextareaField";
 import { toast } from "react-toastify";
-import { useAddMovieMutation } from "../../slices/moviesApiSlice";
-
+import { useAddWatchlistMutation } from "../../slices/watchlistsApiSlice";
 const AddMovie = () => {
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [review, setReview] = useState("");
@@ -14,30 +13,30 @@ const AddMovie = () => {
     const [rating, setRating] = useState(0);
     const [rewatch, setRewatch] = useState(false);
 
-    const [addMovie, { isLoading }] = useAddMovieMutation();
+    const [addToWatchlist] = useAddWatchlistMutation();
 
     const onMovieSubmit = async (e) => {
         e.preventDefault();
 
-        const payload = {
-            movie: selectedMovie,
-            review,
-            rating,
-            watchedOn,
-            rewatch,
+        const movie = {
+            tmdbId: selectedMovie.tmdbId,
+            poster: selectedMovie.poster,
+            releaseDate: selectedMovie.releaseDate,
+            title: selectedMovie.title,
         };
-        // add to movie db
+
         try {
-            const res = await addMovie({
-                tmdbId: selectedMovie.tmdbId,
-                poster: selectedMovie.poster,
-                releaseDate: selectedMovie.releaseDate,
-                title: selectedMovie.title,
+            // adding movie and watchlist on the backend
+            const res = await addToWatchlist({
+                movie,
+                review,
+                rating,
+                watchedOn,
+                rewatch,
             }).unwrap();
         } catch (err) {
             toast.error(err?.data?.msg);
         } finally {
-            // now add it to the user watch list
             toast.success("Added movie");
         }
     };
@@ -66,7 +65,7 @@ const AddMovie = () => {
                     <label className="label">
                         <input
                             type="checkbox"
-                            value={rewatch}
+                            checked={rewatch}
                             name="Rewatch"
                             onChange={(e) => {
                                 setRewatch(e.target.checked);

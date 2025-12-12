@@ -4,25 +4,58 @@ import { format, isValid, parse } from "date-fns";
 const InputDatepicker = ({ value, onChange }) => {
     const inputId = useId();
     const wrapperRef = useRef(null);
-    const [month, setMonth] = useState(new Date());
-    const [selectedDate, setSelectedDate] = useState("");
-    const [inputValue, setInputValue] = useState("");
-    const [visibility, setVisibility] = useState("");
+
+    const [inputValue, setInputValue] = useState(value || "");
+    const [selectedDate, setSelectedDate] = useState(
+        value ? parse(value, "dd/MM/yyyy", new Date()) : undefined
+    );
+    const [month, setMonth] = useState(selectedDate || new Date());
+    const [visibility, setVisibility] = useState(false);
+
+    // 🔵 keep parent in sync when value changes externally
+    useEffect(() => {
+        if (value !== inputValue) {
+            setInputValue(value || "");
+            if (value) {
+                const parsed = parse(value, "dd/MM/yyyy", new Date());
+                if (isValid(parsed)) {
+                    setSelectedDate(parsed);
+                    setMonth(parsed);
+                }
+            }
+        }
+    }, [value]);
 
     const handleDayPickerSelect = (date) => {
-        if (!date) {
-            setInputValue("");
-            setSelectedDate("");
-        } else {
-            setSelectedDate(date);
-            setMonth(date);
-            setInputValue(format(date, "dd/MM/yyyy"));
-            const formattedDate = format(date, "dd/MM/yyyy");
-            setVisibility(false);
-            onChange(formattedDate);
+        if (!date) return;
+
+        const formatted = format(date, "dd/MM/yyyy");
+
+        setSelectedDate(date);
+        setInputValue(formatted);
+        setMonth(date);
+        setVisibility(false);
+
+        // 🔵 send only VALID formatted date to parent
+        onChange(formatted);
+    };
+
+    const handleInputChange = (e) => {
+        const text = e.target.value;
+        setInputValue(text);
+
+        const parsed = parse(text, "dd/MM/yyyy", new Date());
+
+        if (isValid(parsed)) {
+            setSelectedDate(parsed);
+            setMonth(parsed);
+
+            // 🔵 only send formatted VALID date to parent
+            onChange(format(parsed, "dd/MM/yyyy"));
         }
     };
 
+    // close when clicking outside
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
@@ -34,18 +67,6 @@ const InputDatepicker = ({ value, onChange }) => {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
-    const handleInputChange = (e) => {
-        setInputValue(e.target.value);
-        const parsedDate = parse(e.target.value, "dd/MM/yyyy", new Date());
-
-        if (isValid(parsedDate)) {
-            setSelectedDate(parsedDate);
-            setMonth(parsedDate);
-        } else {
-            setSelectedDate("");
-        }
-    };
-
     return (
         <fieldset className="fieldset" ref={wrapperRef}>
             <legend className="fieldset-legend">
@@ -53,12 +74,13 @@ const InputDatepicker = ({ value, onChange }) => {
                     Watched on
                 </label>
             </legend>
+
             <input
-                className="input"
                 id={inputId}
+                className="input"
                 type="text"
-                value={inputValue}
                 placeholder="dd/MM/yyyy"
+                value={inputValue}
                 onChange={handleInputChange}
                 onFocus={() => setVisibility(true)}
                 required

@@ -14,12 +14,12 @@ const watchlistSchema = new Schema(
             ref: "Movie",
         },
         watchDate: {
-            type: Date,
+            type: String,
             required: true,
         },
 
         rating: {
-            userRating: Number,
+            type: Number,
             minimum: 0,
             maximum: 5,
         },

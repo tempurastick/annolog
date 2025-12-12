@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 
 import { toast } from "react-toastify";
 import { CgClose } from "react-icons/cg";
+
 const GoalCard = ({ goal }) => {
     const [status, setStatus] = useState("");
     const [checked, setChecked] = useState("");

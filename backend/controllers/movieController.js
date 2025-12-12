@@ -1,10 +1,9 @@
 import { Movie } from "../model/movieModel.js";
 
-//@desc get a movies
+//@desc get a movie
 // @route GET /api/movies/:id
 export const getMovie = async (req, res, next) => {
-    const movie = await Movie.findOne({ tmdbId: req.params.id });
-
+    const movie = await Movie.findById(req.params.id);
     res.status(200).json(movie);
 };
 
@@ -40,7 +39,7 @@ export const createMovie = async (req, res, next) => {
 //@desc update a movie
 // @route PUT /api/movies/:id
 export const updateMovie = async (req, res, next) => {
-    const movie = await Movie.findOne({ tmdbId: req.params.id });
+    const movie = await Movie.findById(req.params.id);
 
     if (!movie) {
         const error = new Error(
@@ -64,7 +63,7 @@ export const updateMovie = async (req, res, next) => {
 //@desc delete a movie
 // @route DELETE /api/movies/:id
 export const deleteMovie = async (req, res, next) => {
-    const movie = await Movie.findOne({ tmdbId: req.params.id });
+    const movie = await Movie.findById(req.params.id);
 
     if (!movie) {
         const error = new Error(
@@ -74,6 +73,6 @@ export const deleteMovie = async (req, res, next) => {
         return next(error);
     }
 
-    await Movie.deleteOne(movie);
+    await Movie.deleteOne();
     res.status(200).json({ id: req.params.id });
 };
