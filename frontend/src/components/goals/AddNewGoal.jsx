@@ -4,7 +4,7 @@ import Modal from "../Modal/Modal";
 import TextInput from "../form/TextInput";
 import { useAddGoalMutation } from "../../slices/goalsApiSlice";
 import { toast } from "react-toastify";
-const AddNewGoal = () => {
+const AddNewGoal = ({ btnClass = "" }) => {
     const [goal, setGoal] = useState("");
     const addGoalEl = "addGoalEl";
 
@@ -30,7 +30,7 @@ const AddNewGoal = () => {
         <>
             <a
                 role="button"
-                className=""
+                className={btnClass}
                 onClick={() => document.getElementById(addGoalEl).showModal()}
             >
                 Add Goal

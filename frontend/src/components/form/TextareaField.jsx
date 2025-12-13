@@ -4,7 +4,9 @@ const TextareaField = ({ name, value, onChange }) => {
     return (
         <>
             <fieldset className="fieldset">
-                <legend className="fieldset-legend">{name}</legend>
+                <legend className="fieldset-legend opacity-60 font-normal">
+                    {name}
+                </legend>
                 <textarea
                     className="textarea h-24 w-full"
                     placeholder="Insert text here..."

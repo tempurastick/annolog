@@ -96,13 +96,14 @@ export const logoutUser = (req, res) => {
 // @desc update user profile
 // @route PUT /api/users/profile
 export const updateUserProfile = async (req, res, next) => {
-    const { name, email, password } = await req.body;
+    const { name, email, password, bio } = await req.body;
 
     const user = await User.findById(req.user._id);
 
     if (user) {
         user.name = name || user.name;
         user.email = email || user.email;
+        user.bio = bio || user.bio;
 
         if (password) {
             user.password = password;
@@ -114,6 +115,7 @@ export const updateUserProfile = async (req, res, next) => {
             _id: updateUser._id,
             name: updateUser.name,
             email: updateUser.email,
+            bio: updateUser.bio,
         });
     } else {
         const error = new Error(`User not found`);

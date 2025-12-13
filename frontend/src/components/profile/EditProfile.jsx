@@ -1,10 +1,10 @@
 import React from "react";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import EmailField from "../form/EmailField";
-import PasswordField from "../form/PasswordField";
+import TextareaField from "../form/TextareaField";
 import UserNameField from "../form/UserNameField";
 import { useUpdateMutation } from "../../slices/usersApiSlice";
 import { setCredentials } from "../../slices/authSlice";
@@ -13,20 +13,12 @@ import { toast } from "react-toastify";
 const EditProfile = () => {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [bio, setBio] = useState(""); // should throttle this in the future
+
     const [updateProfile, { isLoading }] = useUpdateMutation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const { userInfo } = useSelector((state) => state.auth);
-
-    useEffect(() => {
-        if (userInfo) {
-            setName(userInfo.name);
-            setEmail(userInfo.email);
-        }
-    }, [userInfo.name, userInfo.email]);
 
     const btnClass = isLoading
         ? "btn btn-neutral mt-4 btn-disabled"
@@ -40,7 +32,7 @@ const EditProfile = () => {
                 _id: userInfo._id,
                 name,
                 email,
-                password,
+                bio,
             }).unwrap(); // unwraps promise
             dispatch(setCredentials(res));
             navigate("/");
@@ -49,15 +41,30 @@ const EditProfile = () => {
         }
     };
 
+    console.log(userInfo);
     return (
         <>
-            <form
-                className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
-                onSubmit={submitUserName}
-            >
+            <form className="fieldset p-4" onSubmit={submitUserName}>
                 <UserNameField
+                    required={false}
                     value={name}
+                    name="username"
                     action={(e) => setName(e.target.value)}
+                />
+
+                <EmailField
+                    email={email}
+                    name="email"
+                    required={false}
+                    action={(e) => {
+                        setEmail(e.target.value);
+                    }}
+                />
+
+                <TextareaField
+                    value={bio}
+                    name="bio"
+                    onChange={(e) => setBio(e.target.value)}
                 />
                 <button className={btnClass} type="submit">
                     {isLoading ? (
@@ -69,22 +76,6 @@ const EditProfile = () => {
                     )}
                 </button>
             </form>
-            <EmailField
-                email={email}
-                action={(e) => {
-                    setEmail(e.target.value);
-                }}
-            />
-            <PasswordField
-                name="Password"
-                password={password}
-                action={(e) => setPassword(e.target.value)}
-            />
-            <PasswordField
-                name="Confirm Password"
-                confirmPassword={password}
-                action={(e) => setConfirmPassword(e.target.value)}
-            />
         </>
     );
 };

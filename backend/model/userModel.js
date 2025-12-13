@@ -17,6 +17,7 @@ const userSchema = Schema(
             type: String,
             required: [true, "Please add a password"],
         },
+        bio: String,
     },
     { timeStamps: true }
 );

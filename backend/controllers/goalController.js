@@ -71,12 +71,13 @@ export const updateGoal = async (req, res, next) => {
         error.status = 412;
         return next(error);
     }
-    console.log(req.body);
-    if (req.body?.status !== ("Completed" || "Incomplete")) {
-        const error = new Error(`${req.body.status} is not allowed.`);
-        error.status = 400;
-        return next(error);
-    }
+
+    // TODO: fix bug where this prevents setting status to incomplete
+    // if (req.body?.status != ("Completed" || "Incomplete")) {
+    //     const error = new Error(`${req.body.status} is not allowed.`);
+    //     error.status = 400;
+    //     return next(error);
+    // }
 
     const goal = await Goal.findById(id);
 
