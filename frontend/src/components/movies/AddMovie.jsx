@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SearchMovie from "./SearchMovie";
 import InputDatepicker from "../form/InputDatepicker";
 import RatingField from "../form/RatingField";
@@ -7,8 +7,9 @@ import TextareaField from "../form/TextareaField";
 import { toast } from "react-toastify";
 import Modal from "../Modal/Modal";
 import { useAddWatchlistMutation } from "../../slices/watchlistsApiSlice";
-const AddMovie = () => {
-    const [selectedMovie, setSelectedMovie] = useState(null);
+const AddMovie = ({ btnClass = "" }) => {
+    const [selectedMovie, setSelectedMovie] = useState("");
+    const [searchValue, setSearchValue] = useState("");
     const [review, setReview] = useState("");
     const [watchedOn, setWatchedOn] = useState("");
     const [rating, setRating] = useState(0);
@@ -43,22 +44,35 @@ const AddMovie = () => {
         }
     };
 
+    const handleReset = () => {
+        setSelectedMovie(null);
+        setReview("");
+        setWatchedOn("");
+        setRating(0);
+        setRewatch(false);
+        setSearchValue("");
+    };
+
     return (
         <>
             <a
                 role="button"
-                className=""
+                className={btnClass}
                 onClick={() => document.getElementById(addMovieEl).showModal()}
             >
                 Add Movie
             </a>
 
             <Modal modalEl={addMovieEl}>
-                <h3>Add Movie</h3>
+                <h3>Add entry to watchlist</h3>
                 <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
                     <legend className="fieldset-legend">Add Movie </legend>
                     <form onSubmit={(e) => onMovieSubmit(e)}>
-                        <SearchMovie onSelectMovie={setSelectedMovie} />
+                        <SearchMovie
+                            onSelectMovie={setSelectedMovie}
+                            onChange={setSearchValue}
+                            value={searchValue}
+                        />
                         <InputDatepicker
                             value={watchedOn}
                             onChange={setWatchedOn}
@@ -88,11 +102,23 @@ const AddMovie = () => {
                                 I have seen it before
                             </label>
                         </fieldset>
+                        <div className="flex gap-2">
+                            <button
+                                className="btn btn-primary mt-4"
+                                type="submit"
+                            >
+                                <FaPlus />
+                                Add Movie
+                            </button>
 
-                        <button className="btn btn-primary mt-4" type="submit">
-                            <FaPlus />
-                            Add Movie
-                        </button>
+                            <button
+                                className="btn btn-primary btn-outline mt-4"
+                                onClick={handleReset}
+                                type="reset"
+                            >
+                                Reset
+                            </button>
+                        </div>
                     </form>
                 </fieldset>
             </Modal>

@@ -1,5 +1,5 @@
 import React from "react";
-import { FiHome, FiUser, FiLogOut, FiLogIn } from "react-icons/fi";
+import { FiHome, FiUser, FiLogOut, FiLogIn, FiPlus } from "react-icons/fi";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -19,57 +19,96 @@ const Navbar = () => {
         try {
             await logoutApiCall().unwrap();
             dispatch(logout());
-            navigate("/");
+            navigate("/login");
         } catch (err) {
             toast.error(err?.data?.msg || err.error);
         }
     };
     return (
         <>
-            <ul className="menu menu-vertical bg-base-200 rounded-box">
-                <li>
-                    <NavLink to="/">
-                        <FiHome />
-                        Homepage
-                    </NavLink>
-                </li>
+            <div className="w-full md:w-fit bg-base-200 rounded-box h-fit md:self-center flex justify-center fixed bottom-0 md:static">
+                <ul className="menu menu-horizontal md:menu-vertical">
+                    <li>
+                        <NavLink to="/">
+                            <FiHome className="size-6 sm:size-4" />
+                            <span className="sr-only sm:not-sr-only">
+                                Homepage
+                            </span>
+                        </NavLink>
+                    </li>
 
-                {userInfo ? (
-                    <>
-                        <li>
-                            <NavLink to="/profile">
-                                <FiUser />
-                                Profile
-                            </NavLink>
-                        </li>
-                        <li>
-                            <ul className="menu-sublist">
-                                <li>
-                                    <AddNewGoal />
-                                </li>
-                                <li>
-                                    <AddMovie />
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <NavLink onClick={logoutHandler}>
-                                <FiLogOut />
-                                Logout
-                            </NavLink>
-                        </li>
-                    </>
-                ) : (
-                    <>
-                        <li>
-                            <NavLink to="/login">
-                                <FiLogIn />
-                                Login
-                            </NavLink>
-                        </li>
-                    </>
-                )}
-            </ul>
+                    {userInfo ? (
+                        <>
+                            <li>
+                                <NavLink to="/profile">
+                                    <FiUser className="size-6 sm:size-4" />
+                                    <span className="sr-only sm:not-sr-only">
+                                        Profile
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <button
+                                    className="reset"
+                                    popoverTarget="popover-1"
+                                    style={{
+                                        anchorName: "--anchor-1",
+                                    }}
+                                >
+                                    <FiPlus className="size-6 sm:size-4" />
+                                    <span className="sr-only sm:not-sr-only">
+                                        Add new
+                                    </span>
+                                </button>
+                                <ul
+                                    className="dropdown menu rounded-box bg-base-300 shadow-sm"
+                                    // className="menu-sublist"
+                                    popover="auto"
+                                    id="popover-1"
+                                    style={{
+                                        top: "-160px",
+                                        positionAnchor: "--anchor-1",
+                                    }}
+                                >
+                                    <li>
+                                        <AddNewGoal className="size-6 sm:size-4" />
+                                    </li>
+                                    <li>
+                                        <AddMovie className="size-6 sm:size-4" />
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                <NavLink onClick={logoutHandler}>
+                                    <FiLogOut className="size-6 sm:size-4" />
+                                    <span className="sr-only sm:not-sr-only">
+                                        Logout
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </>
+                    ) : (
+                        <>
+                            <li>
+                                <NavLink to="/login">
+                                    <FiLogIn className="size-6 sm:size-4" />
+                                    <span className="sr-only sm:not-sr-only">
+                                        Login
+                                    </span>
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/register">
+                                    <FiUser className="size-6 sm:size-4" />
+                                    <span className="sr-only sm:not-sr-only">
+                                        Register
+                                    </span>
+                                </NavLink>
+                            </li>
+                        </>
+                    )}
+                </ul>
+            </div>
         </>
     );
 };

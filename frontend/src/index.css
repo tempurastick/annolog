@@ -45,11 +45,16 @@
 }
 
 @plugin "daisyui" {
-  themes: north --default, north --prefersdark, retro, north;
+  themes: corporate --default, business --prefersdark, retro, north, corporate, business;
 }
 
 @layer utilities {
    .pause {
      animation-play-state: paused;
    }
+}
+
+* {
+  	scrollbar-width: thin;
+
 }

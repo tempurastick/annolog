@@ -21,15 +21,21 @@ const WatchlistEl = ({ watchlist }) => {
 
     const ratingList = [];
     if (rating > 0) {
-        for (let i = 0; i < 5; i++) {
-            if (i < rating) {
-                ratingList.push(<FaStar />);
-            } else {
-                ratingList.push(<FaRegStar />);
-            }
+        for (let i = 1; i < 6; i++) {
+            let current = i == rating ? true : false;
+
+            ratingList.push(
+                <div
+                    key={i}
+                    className="mask mask-star-2 bg-primary size-3"
+                    aria-label={`${i} star`}
+                    aria-current={current}
+                ></div>
+            );
         }
     }
 
+    //
     return (
         <li className="flex flex-col sm:flex-row p-4 sm:gap-2">
             {moviePoster}
@@ -42,7 +48,7 @@ const WatchlistEl = ({ watchlist }) => {
                     </span>
                 </p>
                 <div className="flex flex-row mb-1">
-                    <div className="rating-list flex">{ratingList}</div>
+                    <div className="rating flex">{ratingList}</div>
                 </div>
                 <div className="movie-info opacity-60">
                     <p>{review}</p>
