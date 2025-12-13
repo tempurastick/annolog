@@ -5,18 +5,26 @@ import {
     RouterProvider,
 } from "react-router-dom";
 
+import PrivateRoute from "./components/PrivateRoute";
 import Examples from "./pages/Examples";
 import MainLayout from "./layouts/MainLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import Index from "./pages/Index";
 
 const App = () => {
     const router = createBrowserRouter(
         createRoutesFromElements(
             <Route path="/" element={<MainLayout />}>
-                <Route index element={<Examples />} />
+                <Route index element={<Index />} />
+                <Route path="/examples" element={<Examples />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="" element={<PrivateRoute />}>
+                    {/* private routes  */}
+                    <Route path="/profile" element={<Profile />} />
+                </Route>
             </Route>
         )
     );

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import EmailField from "../components/form/EmailField";
 import PasswordField from "../components/form/PasswordField";
 import UserNameField from "../components/form/UserNameField";
-import Validator from "../components/form/Validator";
 import { useRegisterMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";

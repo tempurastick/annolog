@@ -44,3 +44,12 @@
   --font-sans: "Ubuntu", sans-serif;
 }
 
+@plugin "daisyui" {
+  themes: north --default, north --prefersdark, retro, north;
+}
+
+@layer utilities {
+   .pause {
+     animation-play-state: paused;
+   }
+}
