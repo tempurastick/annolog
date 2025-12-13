@@ -61,19 +61,17 @@ const GoalCard = ({ goal }) => {
     };
 
     const handleDeleteGoal = async (e) => {
-        console.log("Gonna delete this now");
-
         try {
             const res = await deleteGoal({
                 _id: goal._id,
             }).unwrap();
         } catch (err) {
-            console.log(err);
+            toast.error(err?.data?.msg || err.error);
         }
     };
 
     return (
-        <div className="card bg-base-200 card-sm shadow-sm w-xs">
+        <div className="card bg-base-200 card-sm mb-2 shadow-sm w-full sm:max-w-[calc(50%-0.5rem)]">
             <div className="card-body">
                 <div className="card-body-inner flex flex-row">
                     <button
@@ -103,7 +101,7 @@ const GoalCard = ({ goal }) => {
                             </>
                         )}
                     </div>
-                    <h2 className="justify-self-end card-title font-normal">
+                    <h2 className="justify-self-end card-title text-xs uppercase font-semibold">
                         {goal.text}
                     </h2>
                 </div>
@@ -114,7 +112,9 @@ const GoalCard = ({ goal }) => {
                         {status}
                     </div>
                     {/*  created at */}
-                    <span className="badge badge-sm">{createdAt}</span>
+                    <span className="badge badge-sm opacity-60">
+                        {createdAt}
+                    </span>
                     {/* finished at (if applicable) - change data here later  */}
                     {/* <span className="badge badge-sm">{goal.updatedAt}</span> */}
                 </div>

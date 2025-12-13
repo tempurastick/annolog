@@ -6,7 +6,7 @@ const TextareaField = ({ name, value, onChange }) => {
             <fieldset className="fieldset">
                 <legend className="fieldset-legend">{name}</legend>
                 <textarea
-                    className="textarea h-24"
+                    className="textarea h-24 w-full"
                     placeholder="Insert text here..."
                     value={value}
                     id={name}

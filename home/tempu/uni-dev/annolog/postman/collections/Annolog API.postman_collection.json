@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "annolog-api-collection",
+		"name": "Annolog API",
+		"description": "API collection for Annolog - a movie watchlist and goal tracking application",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users"]
+						}
+					}
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/auth",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "auth"]
+						}
+					}
+				},
+				{
+					"name": "Get Current User Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "profile"]
+						},
+						"description": "Requires authentication (JWT cookie)"
+					}
+				},
+				{
+					"name": "Update User Profile",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Updated\",\n    \"email\": \"john.updated@example.com\",\n    \"password\": \"newpassword123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/users/profile",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "profile"]
+						},
+						"description": "Requires authentication (JWT cookie)"
+					}
+				},
+				{
+					"name": "Logout User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/users/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "users", "logout"]
+						}
+					}
+				}
+			],
+			"description": "User authentication and profile management endpoints"
+		},
+		{
+			"name": "Movies",
+			"item": [
+				{
+					"name": "Create Movie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"tmdbId\": \"12345\",\n    \"title\": \"Example Movie\",\n    \"poster\": \"/path/to/poster.jpg\",\n    \"releaseDate\": \"2024-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/movies",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies"]
+						}
+					}
+				},
+				{
+					"name": "Get Movie by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/movies/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "movie_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Movie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Movie Title\",\n    \"poster\": \"/path/to/new-poster.jpg\",\n    \"releaseDate\": \"2024-02-20\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/movies/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "movie_id_here"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Movie",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/movies/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "movies", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "movie_id_here"
+								}
+							]
+						}
+					}
+				}
+			],
+			"description": "Movie CRUD operations"
+		},
+		{
+			"name": "Watchlists",
+			"item": [
+				{
+					"name": "Get User Watchlists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/watchlists",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "watchlists"]
+						},
+						"description": "Requires authentication (JWT cookie). Returns all watchlist entries for the current user."
+					}
+				},
+				{
+					"name": "Create Watchlist Entry",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"movie\": {\n        \"tmdbId\": \"12345\",\n        \"title\": \"Example Movie\",\n        \"poster\": \"/path/to/poster.jpg\",\n        \"releaseDate\": \"2024-01-15\"\n    },\n    \"review\": \"Great movie!\",\n    \"rating\": 4.5,\n    \"watchedOn\": \"2024-12-01\",\n    \"rewatch\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/watchlists",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "watchlists"]
+						},
+						"description": "Requires authentication (JWT cookie). Adds a movie to the user's watchlist."
+					}
+				},
+				{
+					"name": "Update Watchlist Entry",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"review\": \"Updated review\",\n    \"rating\": 5,\n    \"watchDate\": \"2024-12-10\",\n    \"rewatch\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/watchlists/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "watchlists", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "watchlist_id_here"
+								}
+							]
+						},
+						"description": "Requires authentication (JWT cookie). Updates a watchlist entry."
+					}
+				},
+				{
+					"name": "Delete Watchlist Entry",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/watchlists/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "watchlists", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "watchlist_id_here"
+								}
+							]
+						},
+						"description": "Requires authentication (JWT cookie). Removes a movie from the user's watchlist."
+					}
+				}
+			],
+			"description": "Watchlist management endpoints - requires authentication"
+		},
+		{
+			"name": "Goals",
+			"item": [
+				{
+					"name": "Get All Goals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "goals"]
+						},
+						"description": "Requires authentication (JWT cookie). Returns all goals for the current user."
+					}
+				},
+				{
+					"name": "Get Goal by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "goals", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "goal_id_here"
+								}
+							]
+						},
+						"description": "Requires authentication (JWT cookie)."
+					}
+				},
+				{
+					"name": "Create Goal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"text\": \"Watch 50 movies this year\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "goals"]
+						},
+						"description": "Requires authentication (JWT cookie). Creates a new goal for the current user."
+					}
+				},
+				{
+					"name": "Update Goal",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"Completed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "goals", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "goal_id_here"
+								}
+							]
+						},
+						"description": "Requires authentication (JWT cookie). Status must be 'Completed' or 'Incomplete'."
+					}
+				},
+				{
+					"name": "Delete Goal",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/goals/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "goals", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "goal_id_here"
+								}
+							]
+						},
+						"description": "Requires authentication (JWT cookie). Deletes a goal owned by the current user."
+					}
+				}
+			],
+			"description": "Goal tracking endpoints - requires authentication"
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get All Posts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/posts?limit=10",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "posts"],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Optional: Limit the number of posts returned"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Post by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/posts/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "posts", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Post Title\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/posts",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "posts"]
+						}
+					}
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Updated Post Title\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/posts/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "posts", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/posts/:id",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "posts", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					}
+				}
+			],
+			"description": "Post CRUD operations (in-memory storage)"
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		}
+	]
+}

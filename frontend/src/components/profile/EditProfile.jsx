@@ -42,7 +42,6 @@ const EditProfile = () => {
                 email,
                 password,
             }).unwrap(); // unwraps promise
-            console.log(res);
             dispatch(setCredentials(res));
             navigate("/");
         } catch (err) {

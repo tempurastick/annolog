@@ -43,7 +43,7 @@ const SearchMovie = ({ onSelectMovie }) => {
         <>
             <div>SearchMovie</div>
             <div className="flex gap-2 w-full flex-wrap">
-                <div className="flex gap-2">
+                <div className="flex gap-2 w-full">
                     {selectedMovie ? (
                         <>
                             {moviePoster}
@@ -66,7 +66,7 @@ const SearchMovie = ({ onSelectMovie }) => {
                         </>
                     )}
                 </div>
-                <div className="dropdown">
+                <div className="dropdown w-full">
                     <label className="input w-full">
                         <HiSearch className="h-[1em] opacity-50" />
 

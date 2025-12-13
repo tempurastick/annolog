@@ -28,14 +28,13 @@ const AddNewGoal = () => {
 
     return (
         <>
-            <button
-                className="btn btn-block btn-soft"
+            <a
+                role="button"
+                className=""
                 onClick={() => document.getElementById(addGoalEl).showModal()}
             >
-                {/* create button into a component later */}
-                <FaPlus />
                 Add Goal
-            </button>
+            </a>
             <Modal modalEl={addGoalEl}>
                 <h3>Add Goal</h3>
                 <form onSubmit={onGoalSubmit}>

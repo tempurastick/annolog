@@ -1,6 +1,6 @@
 import { Goal } from "../model/goalModel.js";
 import { User } from "../model/userModel.js";
-
+import mongoose from "mongoose";
 // @desc Get all goals
 // @route GET /api/goals
 
@@ -14,11 +14,22 @@ export const getGoals = async (req, res, next) => {
 // @route GET /api/goal/:id
 
 export const getGoal = async (req, res, next) => {
-    const goal = await Goal.findById(req.params.id);
+    const { id } = req.params;
 
+    // not valid id passed
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        const error = new Error("Invalid goal id");
+        error.status = 400;
+        return next(error);
+    }
+
+    const goal = await Goal.findById(id);
+
+    // success
     if (goal) {
         res.status(200).json(goal);
     } else {
+        // 404 not found
         const error = new Error(`A goal with the id of ${id} was not found`);
         error.status = 404;
         return next(error);
@@ -26,10 +37,10 @@ export const getGoal = async (req, res, next) => {
 };
 
 // @desc create  single goal
-// @route goal /api/goal/:id
-
+// @route POST goal /api/goal
 export const createGoal = async (req, res, next) => {
-    if (!req.body.text) {
+    console.log(req.body);
+    if (!req.body?.text) {
         const error = new Error("Please include a title");
         error.status = 400;
         return next(error);
@@ -48,9 +59,29 @@ export const createGoal = async (req, res, next) => {
 // @route PUT /api/goals/:d
 
 export const updateGoal = async (req, res, next) => {
-    const goal = await Goal.findById(req.params.id);
+    const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        const error = new Error("Invalid goal id");
+        error.status = 400;
+        return next(error);
+    }
+
+    if (!req.body) {
+        const error = new Error(`Nothing to update for ${id}`);
+        error.status = 412;
+        return next(error);
+    }
+    console.log(req.body);
+    if (req.body?.status !== ("Completed" || "Incomplete")) {
+        const error = new Error(`${req.body.status} is not allowed.`);
+        error.status = 400;
+        return next(error);
+    }
+
+    const goal = await Goal.findById(id);
 
     if (!goal) {
+        // 404 not found
         const error = new Error(
             `A goal with the id of ${req.params.id} was not found`
         );
@@ -58,9 +89,7 @@ export const updateGoal = async (req, res, next) => {
         return next(error);
     }
 
-    // start
-    // should put this in a separate function later
-    // first check if user exists
+    // check for user permission
     const user = await User.findById(req.user.id);
 
     checkUser(goal, user, next);
@@ -75,8 +104,17 @@ export const updateGoal = async (req, res, next) => {
 // @desc delete goal
 // @route DELETE /api/goals/:d
 export const deleteGoal = async (req, res, next) => {
-    const goal = await Goal.findById(req.params.id);
+    const { id } = req.params;
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        const error = new Error("Invalid goal id");
+        error.status = 400;
+        return next(error);
+    }
+
+    const goal = await Goal.findById(id);
+
+    // 404 not found
     if (!goal) {
         const error = new Error(`A goal with the id of ${id} was not found`);
         error.status = 404;
@@ -87,8 +125,8 @@ export const deleteGoal = async (req, res, next) => {
 
     checkUser(goal, user, next);
 
-    await Goal.deleteOne(goal);
-    res.status(200).json({ id: req.params.id });
+    await Goal.deleteOne({ _id: id });
+    res.status(200).json({ id });
 };
 
 // can be put in middleware later and goal should be more generic, as this can
@@ -103,7 +141,7 @@ function checkUser(goal, user, next) {
     // make sure logged in user matches the goal user
     if (goal.user.toString() !== user.id) {
         const error = new Error("User not authorized");
-        error.status = 401;
+        error.status = 403;
         return next(error);
     }
 }

@@ -1,0 +1,538 @@
+{
+	"info": {
+		"_postman_id": "e756773e-3ac9-4899-a4c0-8fbe5b2b48be",
+		"name": "GOAL collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49676522"
+	},
+	"item": [
+		{
+			"name": "POST",
+			"item": [
+				{
+					"name": "create goal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const body = pm.response.json();",
+									"pm.environment.set(\"goalId\", body._id); // saving goalId to environment variable for future use.",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "text",
+									"value": "I am a goal",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "example result",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "text",
+											"value": "I am a goal",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "/api/goals/",
+									"path": [
+										"api",
+										"goals",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "197"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c5-czWxUTpwCsPVn6QpKf1Wp9HXwsc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 13 Dec 2025 13:36:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"user\": \"6935bdcf08e3b586019d21da\",\n    \"text\": \"I am a goal\",\n    \"status\": \"Incomplete\",\n    \"_id\": \"693d6be16f1e57d4c094c424\",\n    \"createdAt\": \"2025-12-13T13:36:33.086Z\",\n    \"updatedAt\": \"2025-12-13T13:36:33.086Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "invalid goal (empty text)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "invalid goal (empty text)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "/api/goals/",
+									"path": [
+										"api",
+										"goals",
+										""
+									]
+								}
+							},
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "PUT",
+			"item": [
+				{
+					"name": "not found 404",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/6935bdcf08e3b586019d21da?text=overwrite the goal",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"6935bdcf08e3b586019d21da"
+							],
+							"query": [
+								{
+									"key": "text",
+									"value": "overwrite the goal"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "nothing to update 412",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/{{goalId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update goal body",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "text",
+									"value": "overwritten goal",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/{{goalId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update goal to status completed",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "status",
+									"value": "Completed",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/{{goalId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DELETE",
+			"item": [
+				{
+					"name": "delete created goal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/{{goalId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "GET",
+			"item": [
+				{
+					"name": "get goals",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get single goal",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/693d5c2581703057088fe5ce",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"693d5c2581703057088fe5ce"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "not found 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/fefe",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"fefe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get deleted goal 404",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/goals/{{goalId}}",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"goals",
+								"{{goalId}}"
+							]
+						},
+						"description": "GET deleted post. Should result in a 404."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"pm.environment.set(\"EXPECTED_STATUS\", \"404\");",
+					"pm.environment.set(\"EXPECTED_STATUS\", \"400\");",
+					"pm.environment.unset(\"EXPECTED_STATUS\");",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					"// global safety TESTS",
+					"",
+					"// response ",
+					"pm.test(\"Response is JSON when Content-Type is application/json\", function () {",
+					"    const contentType = pm.response.headers.get(\"Content-Type\");",
+					"    if (contentType && contentType.includes(\"application/json\")) {",
+					"        pm.response.json();",
+					"    }",
+					"});",
+					"",
+					"// status code contract",
+					"pm.test(\"Status code matches REST contract\", function () {",
+					"    const expectedStatus = pm.environment.get(\"EXPECTED_STATUS\");",
+					"    const actualStatus = pm.response.code;",
+					"",
+					"    if (expectedStatus) {",
+					"        pm.expect(",
+					"            actualStatus,",
+					"            `Expected status ${expectedStatus} but got ${actualStatus}`",
+					"        ).to.eql(Number(expectedStatus));",
+					"        return;",
+					"    }",
+					"",
+					"    // Default REST expectations",
+					"    if (actualStatus >= 500) {",
+					"        let msg = \"Unexpected server error\";",
+					"        try {",
+					"            const body = pm.response.json();",
+					"            msg = body.message || body.error || body.msg || JSON.stringify(body);",
+					"        } catch (e) {",
+					"            msg = pm.response.text();",
+					"        }",
+					"",
+					"        pm.expect.fail(`${actualStatus} ${pm.response.status}: ${msg}`);",
+					"    }",
+					"});",
+					"",
+					"",
+					"// error response ",
+					"if (pm.response.code >= 400) {",
+					"    pm.test(\"Error response has a message field\", function () {",
+					"        const body = pm.response.json();",
+					"        pm.expect(body).to.be.an(\"object\");",
+					"        pm.expect(",
+					"            body,",
+					"            \"Error response should include a message\"",
+					"        ).to.satisfy(b =>",
+					"            b.message || b.error || b.msg",
+					"        );",
+					"    });",
+					"}",
+					"",
+					"",
+					"// success response ",
+					"if (pm.response.code >= 200 && pm.response.code < 300) {",
+					"",
+					"    pm.test(\"Status code is 200\", function () {",
+					"        pm.expect(pm.response.code).to.eql(200);",
+					"    });",
+					"",
+					"    pm.test(\"Response is valid JSON\", function () {",
+					"        pm.response.json();",
+					"    });",
+					"",
+					"    const data = pm.response.json();",
+					"    const items = Array.isArray(data) ? data : [data];",
+					"",
+					" pm.test(\"Response is an object or array\", function () {",
+					"        // Check if data is an Array OR a valid non-null Object",
+					"        pm.expect(data).to.satisfy(d => ",
+					"            Array.isArray(d) || (typeof d === 'object' && d !== null)",
+					"        );",
+					"    });",
+					"    function isFullGoal(item) {",
+					"        const goalProps = [",
+					"            \"user\",",
+					"            \"text\",",
+					"            \"status\",",
+					"            \"_id\",",
+					"            \"createdAt\",",
+					"            \"updatedAt\"",
+					"        ];",
+					"        return goalProps.some(p => item.hasOwnProperty(p));",
+					"    }",
+					"",
+					"    if (items.length && isFullGoal(items[0])) {",
+					"        pm.test(\"Each goal has required properties\", function () {",
+					"            const required = [",
+					"                \"user\",",
+					"                \"text\",",
+					"                \"status\",",
+					"                \"_id\",",
+					"                \"createdAt\",",
+					"                \"updatedAt\"",
+					"            ];",
+					"",
+					"            items.forEach((item, i) => {",
+					"                required.forEach(prop => {",
+					"                    pm.expect(",
+					"                        item,",
+					"                        `Item ${i} missing '${prop}'`",
+					"                    ).to.have.property(prop);",
+					"                });",
+					"            });",
+					"        });",
+					"",
+					"        pm.test(\"Each 'user' is a valid MongoDB ObjectId\", function () {",
+					"            items.forEach((item, i) => {",
+					"                pm.expect(",
+					"                    item.user,",
+					"                    `Item ${i} has invalid user ObjectId`",
+					"                ).to.match(/^[a-fA-F0-9]{24}$/);",
+					"            });",
+					"        });",
+					"    }",
+					"}",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "goalId",
+			"value": ""
+		}
+	]
+}

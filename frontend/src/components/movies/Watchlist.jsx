@@ -12,7 +12,7 @@ const Watchlist = () => {
     if (isLoading) {
         return (
             <>
-                <div className="list bg-base-200 rounded-box shadow-md">
+                <div className="list bg-base-200 rounded-box shadow-md w-full max-w-3/4">
                     <ul className="p-4 pb-2 text-xs opacity-60 tracking-wide">
                         Watchlist
                         <li className="skeleton h-24"></li>
@@ -24,9 +24,9 @@ const Watchlist = () => {
     }
 
     return (
-        <div className="list bg-base-200 rounded-box shadow-md">
-            <ul className="p-4 pb-2 text-xs opacity-60 tracking-wide">
-                Title of this list
+        <div className="list bg-base-200 rounded-box shadow-md w-full sm:max-w-3/4 mx-auto mb-4">
+            <ul className="p-4 pb-2 text-xs tracking-wide">
+                Watchlist
                 {/* <WatchlistEl /> */}
                 {watchlists.map((watchlist) => (
                     <WatchlistEl watchlist={watchlist} key={watchlist._id} />

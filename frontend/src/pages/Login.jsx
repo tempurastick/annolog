@@ -42,7 +42,6 @@ const Login = () => {
             navigate("/");
         } catch (err) {
             toast.error(err?.data?.msg || err.error);
-            console.log(err?.data?.msg || err.error); // data.msg is the error from our backend that we set
         }
     };
 

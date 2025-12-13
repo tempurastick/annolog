@@ -26,11 +26,10 @@ const GoalList = () => {
 
     return (
         <>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap w-full justify-between w-full gap-2 mx-auto sm:max-w-3/4">
                 {goals.map((goal) => (
                     <GoalCard goal={goal} key={goal._id} />
                 ))}
-                <AddNewGoal />
             </div>
         </>
     );

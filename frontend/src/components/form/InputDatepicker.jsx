@@ -77,7 +77,7 @@ const InputDatepicker = ({ value, onChange }) => {
 
             <input
                 id={inputId}
-                className="input"
+                className="input w-full"
                 type="text"
                 placeholder="dd/MM/yyyy"
                 value={inputValue}
