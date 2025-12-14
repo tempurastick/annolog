@@ -57,6 +57,10 @@ Password: (same as username)
 
 Video can be found here: [./documentation/asset/annolog_video.mkv](./documentation/asset/annolog_video.mkv).
 
+
+## Learning Diary
+The learning diary can be found [here](./documentation/asset/learning_diary_martens_jasmin.pdf)
+
 ## Development tidbits
 
 Techstack:
