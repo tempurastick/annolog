@@ -59,7 +59,7 @@ Video can be found here: [./documentation/asset/annolog_video.mkv](./documentati
 
 
 ## Learning Diary
-The learning diary can be found [here](./documentation/asset/learning_diary_martens_jasmin.pdf)
+The learning diary can be found [here](./documentation/learning_diary_martens_jasmin.pdf)
 
 ## Development tidbits
 
