@@ -40,12 +40,11 @@
 }
 
 @theme {
-
   --font-sans: "Ubuntu", sans-serif;
 }
 
 @plugin "daisyui" {
-  themes: corporate --default, business --prefersdark, retro, north, corporate, business;
+  themes: light, dark, retro, north, corporate, business --prefersdark, lemonade, cmyk --default;
 }
 
 @layer utilities {

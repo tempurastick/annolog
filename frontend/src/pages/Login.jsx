@@ -52,39 +52,41 @@ const Login = () => {
 
     return (
         <>
-            <form
-                className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
-                onSubmit={submitHandler}
-            >
-                <EmailField
-                    email={email}
-                    action={(e) => {
-                        setEmail(e.target.value);
-                    }}
-                />
-                <PasswordField
-                    name="Password"
-                    password={password}
-                    action={(e) => setPassword(e.target.value)}
-                />
-
-                <button className={btnClass} type="submit">
-                    {isLoading ? (
-                        <>
-                            <span className="loading loading-dots loading-xs"></span>
-                        </>
-                    ) : (
-                        <>Login</>
-                    )}
-                </button>
-                <button
-                    className="btn btn-ghost mt-1"
-                    type="reset"
-                    onClick={resetForm}
+            <div className="flex flex-col h-full justify-center md:mx-auto w-full sm:max-w-3/4">
+                <form
+                    className="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
+                    onSubmit={submitHandler}
                 >
-                    Reset
-                </button>
-            </form>
+                    <EmailField
+                        email={email}
+                        action={(e) => {
+                            setEmail(e.target.value);
+                        }}
+                    />
+                    <PasswordField
+                        name="Password"
+                        password={password}
+                        action={(e) => setPassword(e.target.value)}
+                    />
+
+                    <button className={btnClass} type="submit">
+                        {isLoading ? (
+                            <>
+                                <span className="loading loading-dots loading-xs"></span>
+                            </>
+                        ) : (
+                            <>Login</>
+                        )}
+                    </button>
+                    <button
+                        className="btn btn-ghost mt-1"
+                        type="reset"
+                        onClick={resetForm}
+                    >
+                        Reset
+                    </button>
+                </form>
+            </div>
         </>
     );
 };

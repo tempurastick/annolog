@@ -41,7 +41,6 @@ const EditProfile = () => {
         }
     };
 
-    console.log(userInfo);
     return (
         <>
             <form className="fieldset p-4" onSubmit={submitUserName}>

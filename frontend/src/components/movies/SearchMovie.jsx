@@ -128,6 +128,7 @@ const SearchMovie = ({ value, onChange, onSelectMovie }) => {
                                                 className="w-full transition hover:bg-base-300 hover:text-base-content/70"
                                             >
                                                 <button
+                                                    className="w-full"
                                                     onClick={(e) =>
                                                         onMovieSelected(
                                                             e,
@@ -135,7 +136,7 @@ const SearchMovie = ({ value, onChange, onSelectMovie }) => {
                                                         )
                                                     }
                                                 >
-                                                    <span className="truncate inline-block w-80 pl-2 py-2">
+                                                    <span className="truncate inline-block w-80 pl-2 py-2 w-full text-left">
                                                         {movie.title}
                                                         <span className="pl-1 italic text-base-content/50">
                                                             (
